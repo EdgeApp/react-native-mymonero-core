@@ -1,0 +1,38 @@
+{
+  "name": "react-native-mymonero-core",
+  "version": "0.1.0",
+  "description": "React Native bindings for mymonero-core-cpp",
+  "homepage": "https://github.com/EdgeApp/react-native-mymonero-core",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:EdgeApp/react-native-mymonero-core.git"
+  },
+  "license": "MIT",
+  "author": "Airbitz, Inc.",
+  "contributors": [
+    "William Swanson <william@airbitz.co>",
+    "Paul Puey <paul@airbitz.co>"
+  ],
+  "main": "src/index.js",
+  "files": [
+    "android/build.gradle",
+    "android/src",
+    "CHANGELOG.md",
+    "ios/Libraries",
+    "ios/MyMoneroCore.h",
+    "ios/MyMoneroCore.mm",
+    "ios/react-native-mymonero-core.xcodeproj",
+    "package.json",
+    "react-native-mymonero-core.podspec",
+    "README.md",
+    "src"
+  ],
+  "scripts": {
+    "update-sources": "ZERO_AR_DATE=1 node -r sucrase/register ./scripts/update-sources.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.7",
+    "disklet": "^0.4.6",
+    "sucrase": "^3.16.0"
+  }
+}
