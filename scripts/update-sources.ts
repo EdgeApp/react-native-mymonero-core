@@ -8,7 +8,7 @@
 //    - Determine which C++ headers are actually necessary.
 //    - Copy the necessary sources into `android/src/main/cpp`.
 //    - Assemble `CMakeLists.txt`.
-// - Assemble an iOS universal staic library.
+// - Assemble an iOS universal static library.
 //
 // This library only uses about 1500 of the 13000 boost headers files,
 // so we ask the C compiler which headers are actually useful.

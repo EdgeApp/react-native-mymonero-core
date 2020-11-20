@@ -7,10 +7,10 @@
     "type": "git",
     "url": "git@github.com:EdgeApp/react-native-mymonero-core.git"
   },
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "author": "Airbitz, Inc.",
   "contributors": [
-    "William Swanson <william@airbitz.co>",
+    "William Swanson <william@edge.app>",
     "Paul Puey <paul@airbitz.co>"
   ],
   "main": "src/index.js",
@@ -28,6 +28,7 @@
     "src"
   ],
   "scripts": {
+    "format-java": "./android/format-java.sh",
     "update-sources": "ZERO_AR_DATE=1 node -r sucrase/register ./scripts/update-sources.ts"
   },
   "devDependencies": {

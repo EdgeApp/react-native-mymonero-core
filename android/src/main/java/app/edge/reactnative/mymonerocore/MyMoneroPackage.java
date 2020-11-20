@@ -1,4 +1,4 @@
-package app.edge.reactnative;
+package app.edge.reactnative.mymonerocore;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;

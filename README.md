@@ -28,6 +28,6 @@ This script does the following tasks:
   - Determine which C++ headers are actually necessary.
   - Copy the necessary sources into `android/src/main/cpp`.
   - Assemble `CMakeLists.txt`.
-- Compile an iOS universal staic library.
+- Compile an iOS universal static library.
 
 The `update-sources` script is also the place to make edits when upgrading any of the third-party dependencies. The react-native-mymonero-core repo doesn't include these third-party C++ sources, since they are enormous.
