@@ -1,0 +1,15 @@
+/node_modules/
+/tmp/
+
+# Android stuff:
+/android/google-java-format-1.7-all-deps.jar
+/android/src/main/cpp/CMakeLists.txt
+/android/src/main/cpp/boost_1_63_0/
+/android/src/main/cpp/monero-core-custom/
+/android/src/main/cpp/mymonero-core-cpp/
+/android/src/main/cpp/mymonero-wrapper/
+
+# iOS stuff:
+.DS_Store
+xcshareddata/
+xcuserdata/
