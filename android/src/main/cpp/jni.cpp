@@ -13,7 +13,7 @@ static const std::string unpackJstring(JNIEnv *env, jstring s) {
 extern "C" {
 
 JNIEXPORT jstring JNICALL
-Java_app_edge_reactnative_MyMoneroModule_callMyMoneroJNI(
+Java_app_edge_reactnative_mymonerocore_MyMoneroModule_callMyMoneroJNI(
     JNIEnv *env,
     jobject self,
     jstring method,

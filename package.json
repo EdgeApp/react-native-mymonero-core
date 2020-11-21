@@ -11,7 +11,7 @@
   "author": "Airbitz, Inc.",
   "contributors": [
     "William Swanson <william@edge.app>",
-    "Paul Puey <paul@airbitz.co>"
+    "Paul Puey <paul@edge.app>"
   ],
   "main": "src/index.js",
   "files": [
