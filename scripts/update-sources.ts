@@ -22,6 +22,7 @@ const disklet = makeNodeDisklet(join(__dirname, '../'))
 const tmp = join(__dirname, '../tmp')
 
 async function main(): Promise<void> {
+  if (!existsSync(tmp)) mkdirSync(tmp)
   await downloadSources()
   await generateAndroidBuild()
   await generateIosLibrary()
