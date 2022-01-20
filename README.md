@@ -2,18 +2,24 @@
 
 This library packages the [mymonero-core-cpp](https://github.com/mymonero/mymonero-core-cpp) library for use on React Native.
 
-It exposes a single method, `callMyMonero`, which accepts and returns JSON strings for now:
+## Usage
+
+This library exposes a `callMyMonero` function, which directly calls the low-level C++ module:
 
 ```js
-import { callMyMonero } from 'react-native-mymonero-core'
+const { callMyMonero } = require('react-native-mymonero-core')
 
-const jsonResult = await callMyMonero('is_subaddress', JSON.stringify(args))
+const args = {
+  address: '...',
+  nettype_string: 'MAINNET'
+}
+const jsonResult = await callMyMonero('decode_address', JSON.stringify(args))
 const result = JSON.parse(jsonResult)
 ```
 
 In a future version, we would like to provide a nicer Javascript API to this library.
 
-## External source code
+## Developing
 
 This library relies on a large amount of native C++ code from other repos. To integrate this code, you must run the following script before publishing this library to NPM:
 
