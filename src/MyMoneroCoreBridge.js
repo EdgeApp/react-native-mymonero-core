@@ -436,6 +436,7 @@ class MyMoneroCoreBridge {
     is_sweeping,
     sending_amount, // this may be 0 if sweeping
     fee_per_b,
+    fee_mask,
     priority,
     unspent_outputs,
     optl__payment_id_string, // this may be nil
@@ -453,6 +454,7 @@ class MyMoneroCoreBridge {
       is_sweeping: '' + is_sweeping, // bool -> string
       priority: '' + priority,
       fee_per_b: fee_per_b.toString(),
+      fee_mask: fee_mask.toString(),
       unspent_outs: sanitary__unspent_outputs // outs, not outputs
     }
     if (
@@ -509,6 +511,7 @@ class MyMoneroCoreBridge {
     payment_id,
     priority,
     fee_per_b, // not kib - if fee_per_kb, /= 1024
+    fee_mask,
     unlock_time,
     nettype
   ) {
@@ -570,6 +573,7 @@ class MyMoneroCoreBridge {
       fee_amount: fee_amount.toString(),
       priority: '' + priority,
       fee_per_b: fee_per_b.toString(),
+      fee_mask: fee_mask.toString(),
       using_outs: sanitary__using_outs,
       mix_outs: sanitary__mix_outs,
       unlock_time: '' + unlock_time, // bridge is expecting a string

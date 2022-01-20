@@ -116,6 +116,7 @@ export interface MyMoneroCoreBridge {
     is_sweeping: boolean,
     sending_amount: JSBigInt, // this may be 0 if sweeping
     fee_per_b: JSBigInt,
+    fee_mask: JSBigInt,
     priority: number,
     unspent_outputs: SpendableOut[],
     optl__payment_id_string?: string, // this may be nil
@@ -135,6 +136,7 @@ export interface MyMoneroCoreBridge {
     payment_id: string | undefined,
     priority: number,
     fee_per_b: JSBigInt, // not kib - if fee_per_kb, /= 1024
+    fee_mask: JSBigInt,
     unlock_time: number,
     nettype: number
   ): Promise<any>;
