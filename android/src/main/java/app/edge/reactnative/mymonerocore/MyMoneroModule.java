@@ -4,9 +4,13 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyMoneroModule extends ReactContextBaseJavaModule {
   private native String callMyMoneroJNI(String method, String arguments);
+
+  private native String[] getMethodNames();
 
   static {
     System.loadLibrary("mymonero-jni");
@@ -14,6 +18,13 @@ public class MyMoneroModule extends ReactContextBaseJavaModule {
 
   public MyMoneroModule(ReactApplicationContext reactContext) {
     super(reactContext);
+  }
+
+  @Override
+  public Map<String, Object> getConstants() {
+    final Map<String, Object> constants = new HashMap<>();
+    constants.put("methodNames", getMethodNames());
+    return constants;
   }
 
   @Override

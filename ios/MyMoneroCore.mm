@@ -36,4 +36,15 @@ RCT_REMAP_METHOD(
   );
 }
 
+- (NSDictionary *)constantsToExport
+{
+  NSMutableArray *out = [NSMutableArray arrayWithCapacity:myMoneroMethodCount];
+  for (int i = 0; i < myMoneroMethodCount; ++i) {
+    NSString *name = [NSString stringWithCString:myMoneroMethods[i].name
+      encoding:NSUTF8StringEncoding];
+    out[i] = name;
+  }
+  return @{ @"methodNames": out };
+}
+
 @end
