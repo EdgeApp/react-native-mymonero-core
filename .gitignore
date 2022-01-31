@@ -11,3 +11,4 @@
 
 # iOS stuff:
 .DS_Store
+/ios/MyMoneroCore.xcframework/
