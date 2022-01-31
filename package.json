@@ -16,16 +16,13 @@
   "main": "src/index.js",
   "files": [
     "android/build.gradle",
-    "android/src",
+    "android/src/",
     "CHANGELOG.md",
-    "ios/Libraries",
-    "ios/MyMoneroCore.h",
-    "ios/MyMoneroCore.mm",
-    "ios/react-native-mymonero-core.xcodeproj",
+    "ios/",
     "package.json",
     "react-native-mymonero-core.podspec",
     "README.md",
-    "src"
+    "src/"
   ],
   "scripts": {
     "format-java": "./android/format-java.sh",
