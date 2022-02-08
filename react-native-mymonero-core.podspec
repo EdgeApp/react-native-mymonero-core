@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
     "ios/MyMoneroCore.h",
     "ios/MyMoneroCore.mm",
     "src/mymonero-wrapper/mymonero-methods.hpp"
-  s.vendored_libraries = "ios/Libraries/libmymonero-core.a"
+  s.vendored_frameworks = "ios/MyMoneroCore.xcframework"
 
   s.dependency "React"
 end

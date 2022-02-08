@@ -11,5 +11,4 @@
 
 # iOS stuff:
 .DS_Store
-xcshareddata/
-xcuserdata/
+/ios/MyMoneroCore.xcframework/

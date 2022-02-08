@@ -132,11 +132,16 @@ const sources: string[] = [
 ]
 
 // Phones and simulators we need to support:
-const iosPlatforms: { [arch: string]: string } = {
-  arm64: 'iphoneos',
-  armv7: 'iphoneos',
-  armv7s: 'iphoneos',
-  x86_64: 'iphonesimulator'
+const iosPlatforms: Array<{ sdk: string; arch: string }> = [
+  { sdk: 'iphoneos', arch: 'arm64' },
+  { sdk: 'iphoneos', arch: 'armv7' },
+  { sdk: 'iphoneos', arch: 'armv7s' },
+  { sdk: 'iphonesimulator', arch: 'arm64' },
+  { sdk: 'iphonesimulator', arch: 'x86_64' }
+]
+const iosSdkTriples: { [sdk: string]: string } = {
+  iphoneos: '%arch%-apple-ios9.0',
+  iphonesimulator: '%arch%-apple-ios9.0-simulator'
 }
 
 /**
@@ -240,24 +245,28 @@ async function generateIosLibrary(): Promise<void> {
 
   // Generate a library for each platform:
   const libraries: string[] = []
-  for (const arch of Object.keys(iosPlatforms)) {
-    const working = join(tmp, `ios-${arch}`)
+  for (const { sdk, arch } of iosPlatforms) {
+    const working = join(tmp, `${sdk}-${arch}`)
     if (!existsSync(working)) mkdirSync(working)
 
     // Find platform tools:
-    const xcrun = ['xcrun', '--sdk', iosPlatforms[arch]]
+    const xcrun = ['xcrun', '--sdk', sdk]
     const ar = quietExec([...xcrun, '--find', 'ar'])
     const cc = quietExec([...xcrun, '--find', 'clang'])
     const cxx = quietExec([...xcrun, '--find', 'clang++'])
     const sdkFlags = [
-      `-arch ${arch}`,
-      `-isysroot ${quietExec([...xcrun, '--show-sdk-path'])}`
+      '-arch',
+      arch,
+      '-target',
+      iosSdkTriples[sdk].replace('%arch%', arch),
+      '-isysroot',
+      quietExec([...xcrun, '--show-sdk-path'])
     ]
 
     // Compile sources:
     const objects: string[] = []
     for (const source of sources) {
-      console.log(`Compiling ${source} for ${arch}...`)
+      console.log(`Compiling ${source} for ${sdk}-${arch}...`)
 
       // Figure out the object file name:
       const object = join(
@@ -278,6 +287,7 @@ async function generateIosLibrary(): Promise<void> {
     }
 
     // Generate a static library:
+    console.log(`Building static library for ${sdk}-${arch}...`)
     const library = join(working, `libmymonero-core.a`)
     if (existsSync(library)) unlinkSync(library)
     libraries.push(library)
@@ -285,12 +295,32 @@ async function generateIosLibrary(): Promise<void> {
   }
 
   // Merge the platforms into a fat library:
+  const merged: string[] = []
+  const sdks = new Set(iosPlatforms.map(row => row.sdk))
+  for (const sdk of sdks) {
+    console.log(`Merging libraries for ${sdk}...`)
+    const working = join(tmp, `${sdk}-lipo`)
+    if (!existsSync(working)) mkdirSync(working)
+    const output = join(working, 'libmymonero-core.a')
+    merged.push('-library', output)
+    quietExec([
+      'lipo',
+      '-create',
+      '-output',
+      output,
+      ...libraries.filter((_, i) => iosPlatforms[i].sdk === sdk)
+    ])
+  }
+
+  // Bundle those into an XCFramework:
+  console.log('Creating XCFramework...')
+  await disklet.delete('ios/MyMoneroCore.xcframework')
   quietExec([
-    'lipo',
-    '-create',
+    'xcodebuild',
+    '-create-xcframework',
+    ...merged,
     '-output',
-    join(__dirname, '../ios/Libraries/libmymonero-core.a'),
-    ...libraries
+    join(__dirname, '../ios/MyMoneroCore.xcframework')
   ])
 }
 
