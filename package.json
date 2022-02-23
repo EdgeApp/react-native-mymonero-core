@@ -28,6 +28,11 @@
     "format-java": "./android/format-java.sh",
     "update-sources": "ZERO_AR_DATE=1 node -r sucrase/register ./scripts/update-sources.ts"
   },
+  "dependencies": {
+    "@mymonero/mymonero-bigint": "^1.4.2",
+    "@mymonero/mymonero-money-format": "^1.4.2",
+    "@mymonero/mymonero-nettype": "^1.4.2"
+  },
   "devDependencies": {
     "@types/node": "^14.14.7",
     "disklet": "^0.4.6",
