@@ -1,5 +1,11 @@
 {
   "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": "*.d.ts",
+      "options": { "semi": true }
+    }
+  ],
   "semi": false,
   "singleQuote": true,
   "trailingComma": "none"

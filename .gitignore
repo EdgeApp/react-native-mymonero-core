@@ -1,4 +1,5 @@
 /node_modules/
+/src/index.js.flow
 /tmp/
 
 # Android stuff:
