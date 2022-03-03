@@ -8,8 +8,12 @@ This library exposes a similar `MyMoneroCoreBridge` object to the [mymonero-core
 
 ```js
 const { monero_utils } = require('react-native-mymonero-core')
+const nettype_utils = require('@mymonero/mymonero-nettype')
 
-const addressInfo = await monero_utils.decode_address('...', MAINNET)
+const addressInfo = await monero_utils.decode_address(
+  '...',
+  nettype_utils.network_type.MAINNET
+)
 ```
 
 In addition, this library exposes a `callMyMonero` function, which directly calls the low-level C++ module:
