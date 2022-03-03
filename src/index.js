@@ -1,7 +1,10 @@
-import { NativeModules } from 'react-native'
+const { NativeModules } = require('react-native')
+const MyMoneroCoreBridge = require('./MyMoneroCoreBridge.js')
 
-const native = NativeModules.MyMoneroCore
+const { MyMoneroCore } = NativeModules
 
-export function callMyMonero(method, jsonArguments) {
-  return native.callMyMonero(method, jsonArguments)
+exports.callMyMonero = function callMyMonero(method, jsonArguments) {
+  return MyMoneroCore.callMyMonero(method, jsonArguments)
 }
+
+exports.monero_utils = new MyMoneroCoreBridge(MyMoneroCore)

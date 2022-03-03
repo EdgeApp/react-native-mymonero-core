@@ -9,6 +9,7 @@
 //    - Copy the necessary sources into `android/src/main/cpp`.
 //    - Assemble `CMakeLists.txt`.
 // - Assemble an iOS universal static library.
+// - Generate Flow types from the TypeScript definitions.
 //
 // This library only uses about 1500 of the 13000 boost headers files,
 // so we ask the C compiler which headers are actually useful.
@@ -26,6 +27,7 @@ async function main(): Promise<void> {
   await downloadSources()
   await generateAndroidBuild()
   await generateIosLibrary()
+  await makeFlowTypes()
 }
 
 async function downloadSources(): Promise<void> {
@@ -322,6 +324,22 @@ async function generateIosLibrary(): Promise<void> {
     '-output',
     join(__dirname, '../ios/MyMoneroCore.xcframework')
   ])
+}
+
+/**
+ * Turns the TypeScript types into Flow types.
+ */
+async function makeFlowTypes(): Promise<void> {
+  const ts = await disklet.getText('src/index.d.ts')
+  await disklet.setText(
+    'src/index.js.flow',
+    '// @flow\n' +
+      ts
+        .replace (/constructor\(([^)]*)\)/, 'constructor($1): MyMoneroCoreBridge')
+        .replace(/\| undefined/g, '| void')
+        .replace(/export declare /g, 'declare export ')
+        .replace(/readonly /g, '+')
+  )
 }
 
 /**

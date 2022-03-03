@@ -14,10 +14,10 @@ extern "C" {
 
 JNIEXPORT jstring JNICALL
 Java_app_edge_reactnative_mymonerocore_MyMoneroModule_callMyMoneroJNI(
-    JNIEnv *env,
-    jobject self,
-    jstring method,
-    jstring arguments
+  JNIEnv *env,
+  jobject self,
+  jstring method,
+  jstring arguments
 ) {
   const std::string methodString = unpackJstring(env, method);
   const std::string argumentsString = unpackJstring(env, arguments);
@@ -44,6 +44,25 @@ Java_app_edge_reactnative_mymonerocore_MyMoneroModule_callMyMoneroJNI(
     ("No mymonero-core-cpp method " + methodString).c_str()
   );
   return nullptr;
+}
+
+JNIEXPORT jobjectArray JNICALL
+Java_app_edge_reactnative_mymonerocore_MyMoneroModule_getMethodNames(
+  JNIEnv *env,
+  jobject self
+) {
+  jobjectArray out = env->NewObjectArray(
+    myMoneroMethodCount,
+    env->FindClass("java/lang/String"),
+    env->NewStringUTF("")
+  );
+  if (!out) return nullptr;
+
+  for (int i = 0; i < myMoneroMethodCount; ++i) {
+    jstring name = env->NewStringUTF(myMoneroMethods[i].name);
+    env->SetObjectArrayElement(out, i, name);
+  }
+  return out;
 }
 
 }
