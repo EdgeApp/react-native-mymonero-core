@@ -30,6 +30,7 @@ async function main(): Promise<void> {
 
 async function downloadSources(): Promise<void> {
   getZip(
+    // The Emscripten SDK includes 1.75, but this older version still works:
     'boost_1_63_0.zip',
     'https://dl.bintray.com/boostorg/release/1.63.0/source/boost_1_63_0.zip'
   )
@@ -39,9 +40,20 @@ async function downloadSources(): Promise<void> {
     '936afd97467375511032d6a4eef6e76c982148dd'
   )
   getRepo(
+    // Use the webassembly-cleanup branch:
     'mymonero-core-cpp',
-    'https://github.com/ndorf/mymonero-core-cpp.git',
-    '15b6d0cb67f1e580fe2ab4324139af9c313c1c91'
+    'https://github.com/mymonero/mymonero-core-cpp.git',
+    '005fcf096ef429ddc157f489d69b1d3ca7d16244'
+  )
+  getRepo(
+    'mymonero-utils',
+    'https://github.com/mymonero/mymonero-utils.git',
+    'a6df682f9b730804963538e8d826d91ae59dba40'
+  )
+  await disklet.setText(
+    // Upstream mymonero-utils wrongly includes this file, so make a dummy:
+    'tmp/monero-core-custom/emscripten.h',
+    ''
   )
   await copyFiles('src/', 'tmp/', [
     'mymonero-wrapper/mymonero-methods.cpp',
@@ -67,7 +79,8 @@ const includePaths: string[] = [
   'monero-core-custom/epee/include/',
   'monero-core-custom/mnemonics/',
   'monero-core-custom/vtlogger/',
-  'monero-core-custom/wallet/'
+  'monero-core-custom/wallet/',
+  'mymonero-core-cpp/src/'
 ]
 
 // Source list derived loosely from mymonero-core-cpp/CMakeLists.txt:
@@ -128,6 +141,8 @@ const sources: string[] = [
   'mymonero-core-cpp/src/serial_bridge_index.cpp',
   'mymonero-core-cpp/src/serial_bridge_utils.cpp',
   'mymonero-core-cpp/src/tools__ret_vals.cpp',
+  'mymonero-utils/packages/mymonero-monero-client/src/emscr_SendFunds_bridge.cpp',
+  'mymonero-utils/packages/mymonero-monero-client/src/SendFundsFormSubmissionController.cpp',
   'mymonero-wrapper/mymonero-methods.cpp'
 ]
 
@@ -331,12 +346,7 @@ async function makeFlowTypes(): Promise<void> {
   const ts = await disklet.getText('src/index.d.ts')
   await disklet.setText(
     'src/index.js.flow',
-    '// @flow\n' +
-      ts
-        .replace (/constructor\(([^)]*)\)/, 'constructor($1): MyMoneroCoreBridge')
-        .replace(/\| undefined/g, '| void')
-        .replace(/export declare /g, 'declare export ')
-        .replace(/readonly /g, '+')
+    '// @flow\n' + ts.replace(/readonly /g, '+')
   )
 }
 

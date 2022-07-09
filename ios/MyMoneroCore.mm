@@ -10,30 +10,52 @@ RCT_EXPORT_MODULE();
 RCT_REMAP_METHOD(
   callMyMonero,
   callMyMoneroMethod:(NSString *)method
-  arguments:(NSString *)arguments
+  arguments:(NSArray *)arguments
   resolver:(RCTPromiseResolveBlock)resolve
   rejecter:(RCTPromiseRejectBlock)reject
 ) {
   const std::string methodString = [method UTF8String];
-  const std::string argumentsString = [arguments UTF8String];
+
+  // Re-package the arguments:
+  NSUInteger length = [arguments count];
+  std::vector<const std::string> strings;
+  strings.reserve(length);
+  for (NSUInteger i = 0; i < length; ++i) {
+    NSString *string = [arguments objectAtIndex:i];
+    strings.push_back([string UTF8String]);
+  }
 
   // Find the named method:
   for (int i = 0; i < myMoneroMethodCount; ++i) {
-      if (myMoneroMethods[i].name != methodString) continue;
+    if (myMoneroMethods[i].name != methodString) continue;
 
-      // Call the method, with error handling:
-      try {
-          const std::string out = myMoneroMethods[i].method(argumentsString);
-          resolve([NSString stringWithCString:out.c_str() encoding:NSUTF8StringEncoding]);
-      } catch (...) {
-          reject(@"Error", @"mymonero-core-cpp threw an exception", nil);
-      }
+    // Validate the argument count:
+    if (myMoneroMethods[i].argc != strings.size()) {
+      reject(@"Error", @"mymonero incorrect C++ argument count", nil);
       return;
+    }
+
+    // Call the method, with error handling:
+    try {
+      const std::string out = myMoneroMethods[i].method(strings);
+      resolve(
+        [NSString stringWithCString:out.c_str() encoding:NSUTF8StringEncoding]
+      );
+    } catch (std::exception e) {
+      reject(
+        @"Error",
+        [NSString stringWithCString:e.what() encoding:NSUTF8StringEncoding],
+        nil
+      );
+    } catch (...) {
+      reject(@"Error", @"mymonero threw a C++ exception", nil);
+    }
+    return;
   }
 
   reject(
     @"TypeError",
-    [NSString stringWithFormat:@"No mymonero-core-cpp method %@", method],
+    [NSString stringWithFormat:@"No mymonero C++ method %@", method],
     nil
   );
 }
