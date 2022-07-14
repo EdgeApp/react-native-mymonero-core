@@ -1,5 +1,10 @@
 # react-native-mymonero-core
 
+## v0.1.3 (2022-07-14)
+
+- fixed: Update incorrect comments in the `update-sources` script.
+- fixed: Silence the iOS `requiresMainQueueSetup` warning.
+
 ## v0.1.2 (2022-03-03)
 
 - added: Export a `monero_utils` object of type `MyMoneroCoreBridge`, which provides a higher-level API to these methods.
