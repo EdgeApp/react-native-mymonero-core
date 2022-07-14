@@ -1,6 +1,4 @@
-#!/usr/bin/env node -r sucrase/register
-//
-// Run this script as `./scripts/update-sources.ts`
+// Run this script as `node -r sucrase/register ./scripts/update-sources.ts`
 //
 // It will:
 // - Download third-party source code.
