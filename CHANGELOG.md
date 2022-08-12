@@ -1,5 +1,9 @@
 # react-native-mymonero-core
 
+## v0.2.0 (2022-08-11)
+
+- changed: Switch the API to match @mymonero/mymonero-monero-client instead of the old mymonero-core-js.
+
 ## v0.1.3 (2022-07-14)
 
 - fixed: Update incorrect comments in the `update-sources` script.
