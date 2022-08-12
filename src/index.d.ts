@@ -7,7 +7,7 @@
 export interface NativeMyMoneroCore {
   readonly callMyMonero: (
     name: string,
-    jsonArguments: string
+    jsonArguments: string[]
   ) => Promise<string>;
 
   readonly methodNames: string[];
