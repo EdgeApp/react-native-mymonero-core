@@ -168,6 +168,7 @@ async function generateAndroidBuild() {
   await disklet.delete(src + 'boost_1_63_0')
   await disklet.delete(src + 'monero-core-custom')
   await disklet.delete(src + 'mymonero-core-cpp')
+  await disklet.delete(src + 'mymonero-utils')
   await disklet.delete(src + 'mymonero-wrapper')
 
   // Figure out which files we need:
