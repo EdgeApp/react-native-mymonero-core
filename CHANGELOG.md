@@ -1,5 +1,9 @@
 # react-native-mymonero-core
 
+## v0.2.1 (2022-08-11)
+
+- fixed: Correctly detect boost headers on M1 build machines.
+
 ## v0.2.0 (2022-08-11)
 
 - changed: Switch the API to match @mymonero/mymonero-monero-client instead of the old mymonero-core-js.
