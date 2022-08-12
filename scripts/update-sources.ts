@@ -179,10 +179,13 @@ async function generateAndroidBuild() {
     'mymonero-core-cpp/LICENSE.txt',
 
     // Platform-specific files our header inference might not catch:
+    'boost_1_63_0/boost/atomic/detail/ops_cas_based.hpp',
     'boost_1_63_0/boost/atomic/detail/ops_extending_cas_based.hpp',
+    'boost_1_63_0/boost/atomic/detail/ops_gcc_x86_dcas.hpp',
     'boost_1_63_0/boost/config/platform/linux.hpp',
     'boost_1_63_0/boost/detail/fenv.hpp',
-    'boost_1_63_0/boost/uuid/detail/uuid_generic.hpp'
+    'boost_1_63_0/boost/uuid/detail/uuid_generic.hpp',
+    'boost_1_63_0/boost/uuid/detail/uuid_x86.hpp'
   ]
   for (const extra of extraFiles) {
     if (headers.indexOf(extra) >= 0) {
