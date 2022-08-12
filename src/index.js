@@ -1,10 +1,21 @@
 const { NativeModules } = require('react-native')
-const MyMoneroCoreBridge = require('./MyMoneroCoreBridge.js')
+const CppBridge = require('./CppBridge.js')
 
 const { MyMoneroCore } = NativeModules
 
-exports.callMyMonero = function callMyMonero(method, jsonArguments) {
-  return MyMoneroCore.callMyMonero(method, jsonArguments)
+// Put the methods back together:
+const methods = {}
+for (const name of MyMoneroCore.methodNames) {
+  methods[name] = function (...args) {
+    return MyMoneroCore.callMyMonero(name, args).then(out => {
+      // We have to cast some return values:
+      return name === 'compareMnemonics' ||
+        name === 'isIntegratedAddress' ||
+        name === 'isSubaddress'
+        ? Boolean(out)
+        : out
+    })
+  }
 }
 
-exports.monero_utils = new MyMoneroCoreBridge(MyMoneroCore)
+module.exports = new CppBridge(methods)

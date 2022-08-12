@@ -1,35 +1,51 @@
 # react-native-mymonero-core
 
-This library packages the [mymonero-core-cpp](https://github.com/mymonero/mymonero-core-cpp) library for use on React Native.
+This library packages Monero C++ crypto methods for use on React Native.
+
+It has a single default export that mostly matches the `WABridge` interface found in [@mymonero/mymonero-monero-client](https://github.com/mymonero/mymonero-utils/tree/master/packages/mymonero-monero-client). The big difference is that react-native-mymonero-core only has async methods, whereas many of the upstream `WABridge` methods are synchronous.
 
 ## Usage
 
-This library exposes a similar `MyMoneroCoreBridge` object to the [mymonero-core-js](https://github.com/mymonero/mymonero-core-js) library it is based on, but with all methods changed to be `async`:
+First, add this library to your React Native app using NPM or Yarn, and run `pod install` as necessary to integrate it with your app's native code.
+
+Here is a simple usage example. Note the `await` on the method call, but not on the require:
 
 ```js
-const { monero_utils } = require('react-native-mymonero-core')
-const nettype_utils = require('@mymonero/mymonero-nettype')
+const bridge = require('react-native-mymonero-core')
 
-const addressInfo = await monero_utils.decode_address(
-  '...',
-  nettype_utils.network_type.MAINNET
-)
+const addressInfo = await bridge.decodeAddress('...', 'MAINNET')
 ```
 
-In addition, this library exposes a `callMyMonero` function, which directly calls the low-level C++ module:
+You can also use ES6 imports if you prefer:
 
 ```js
-const { callMyMonero } = require('react-native-mymonero-core')
-
-const args = {
-  address: '...',
-  nettype_string: 'MAINNET'
-}
-const jsonResult = await callMyMonero('decode_address', JSON.stringify(args))
-const result = JSON.parse(jsonResult)
+import bridge from 'react-native-mymonero-core'
 ```
 
-This `callMyMonero` function is deprecated, however.
+We have types too, if you need those:
+
+```ts
+import type { CppBridge } from 'react-native-mymonero-core'
+```
+
+The available methods are:
+
+- addressAndKeysFromSeed
+- compareMnemonics
+- createTransaction
+- decodeAddress
+- estimateTxFee
+- generateKeyImage
+- generatePaymentId
+- generateWallet
+- isIntegratedAddress
+- isSubaddress
+- isValidKeys
+- mnemonicFromSeed
+- newIntegratedAddress
+- seedAndKeysFromMnemonic
+
+See the documentation at [@mymonero/mymonero-monero-client](https://github.com/mymonero/mymonero-utils/tree/master/packages/mymonero-monero-client) for more information.
 
 ## Developing
 

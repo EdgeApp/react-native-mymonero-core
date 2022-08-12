@@ -1,7 +1,7 @@
 {
   "name": "react-native-mymonero-core",
   "version": "0.1.3",
-  "description": "React Native bindings for mymonero-core-cpp",
+  "description": "React Native bindings for @mymonero/mymonero-monero-client",
   "homepage": "https://github.com/EdgeApp/react-native-mymonero-core",
   "repository": {
     "type": "git",

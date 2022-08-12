@@ -1,7 +1,10 @@
 /**
  * The shape of the native C++ module exposed to React Native.
+ *
+ * You do not normally need this, but it is accessible as
+ * `require('react-native').NativeModules.MyMoneroCore`
  */
-export interface MyMoneroCore {
+export interface NativeMyMoneroCore {
   readonly callMyMonero: (
     name: string,
     jsonArguments: string
@@ -11,135 +14,190 @@ export interface MyMoneroCore {
 }
 
 /**
- * Provides direct low-level access to the C++ methods.
- * Deprecated.
+ * Data returned by the `/get_random_outs` LWS route.
  */
-export declare function callMyMonero(
-  name: string,
-  args: string
-): Promise<string>;
+export type RandomOuts = {
+  amount_outs: Array<{
+    amount: string;
+    outputs: Array<{
+      global_index: string;
+      public_key: string;
+      rct: string;
+    }>;
+  }>;
+};
 
-interface JSBigInt {
-  toString(): string;
-}
+/**
+ * Data returned by the `/get_unspent_outs` LWS route.
+ */
+export type UnpsentOuts = {
+  amount: string;
+  outputs: Array<{
+    amount: string;
+    global_index: number;
+    height: number;
+    index: number;
+    public_key: string;
+    rct?: string;
+    spend_key_images: string[];
+    timestamp: string;
+    ts_prefix_hash: string;
+    tx_hash: string;
+    tx_id: string;
+    tx_pub_key: string;
+  }>;
+  per_byte_fee: number;
+  fee_mask: number;
+  fork_version: number;
+};
 
-interface SpendableOut {
-  amount: JSBigInt;
-  public_key: string;
-  global_index: number;
-  index: number;
+export type Nettype = 'MAINNET' | 'STAGENET' | 'TESTNET' | 'FAKECHAIN';
+export type Priority = 1 | 2 | 3 | 4;
+export type RandomOutsCallback = (numberOfOuts: number) => Promise<RandomOuts>;
+
+export type AddressAndKeys = {
+  address: string;
+  privateSpendKey: string;
+  privateViewKey: string;
+  publicSpendKey: string;
+  publicViewKey: string;
+};
+
+export type CreateTransactionOptions = {
+  // Source wallet:
+  address: string;
+  nettype: Nettype;
+  priority: Priority;
+  privateSpendKey: string;
+  privateViewKey: string;
+  publicSpendKey: string;
+
+  // Destination:
+  destinations: Array<{
+    to_address: string;
+    send_amount: string;
+  }>;
+  shouldSweep: boolean;
+
+  // Chain state:
+  unspentOuts: UnpsentOuts;
+  randomOutsCb: RandomOutsCallback;
+};
+
+export type CreatedTransaction = {
+  // Transaction:
+  serialized_signed_tx: string;
+  tx_hash: string;
+  tx_key: string;
   tx_pub_key: string;
-  rct?: string;
-}
+
+  // Amounts:
+  total_sent: string;
+  final_total_wo_fee: string;
+  used_fee: string;
+
+  // Other stuff:
+  isXMRAddressIntegrated: string; // '0' or '1'
+  mixin: string; // integer string
+  target_address: string; // Broken
+};
+
+export type DecodedAddress = {
+  isSubaddress: boolean;
+  paymentId?: string;
+  publicSpendKey: string;
+  publicViewKey: string;
+};
+
+export type GeneratedWallet = {
+  address: string;
+  mnemonic: string;
+  mnemonicLanguage: string;
+  privateSpendKey: string;
+  privateViewKey: string;
+  publicSpendKey: string;
+  publicViewKey: string;
+  seed: string;
+};
+
+export type SeedAndKeys = {
+  address: string;
+  mnemonicLanguage: string;
+  privateSpendKey: string;
+  privateViewKey: string;
+  publicSpendKey: string;
+  publicViewKey: string;
+  seed: string;
+};
 
 /**
  * The high-level API to the native C++ module.
- * TODO: The return types are still `any`, and need further refinement.
  */
-export interface MyMoneroCoreBridge {
-  is_subaddress(addr: string, nettype: number): Promise<any>;
+export interface CppBridge {
+  addressAndKeysFromSeed(
+    seed: string,
+    nettype: Nettype
+  ): Promise<AddressAndKeys>;
 
-  is_integrated_address(addr: string, nettype: number): Promise<any>;
+  compareMnemonics(a: string, b: string): Promise<boolean>;
 
-  new_payment_id(): Promise<any>;
+  createTransaction(
+    options: CreateTransactionOptions
+  ): Promise<CreatedTransaction>;
 
-  new__int_addr_from_addr_and_short_pid(
+  decodeAddress(address: string, nettype: Nettype): Promise<DecodedAddress>;
+
+  estimateTxFee(
+    priority: Priority,
+    feePerb: number,
+    forkVersion?: number
+  ): Promise<number>;
+
+  generateKeyImage(
+    txPublicKey: string,
+    privateViewKey: string,
+    publicSpendKey: string,
+    privateSpendKey: string,
+    outputIndex: number
+  ): Promise<string>;
+
+  generatePaymentId(): Promise<string>;
+
+  generateWallet(
+    localeLanguageCode: string,
+    nettype: Nettype
+  ): Promise<GeneratedWallet>;
+
+  isIntegratedAddress(address: string, nettype: Nettype): Promise<boolean>;
+
+  isSubaddress(address: string, nettype: Nettype): Promise<boolean>;
+
+  isValidKeys(
     address: string,
-    short_pid: string,
-    nettype: number
-  ): Promise<any>;
+    privateViewKey: string,
+    privateSpendKey: string,
+    seed: string,
+    nettype: Nettype
+  ): Promise<{
+    isValid: boolean;
+    isViewOnly: boolean;
+    publicSpendKey: string;
+    publicViewKey: string;
+  }>;
 
-  decode_address(address: string, nettype: number): Promise<any>;
+  mnemonicFromSeed(seed: string, wordsetName: string): Promise<string>;
 
-  newly_created_wallet(
-    locale_language_code: string,
-    nettype: number
-  ): Promise<any>;
+  newIntegratedAddress(
+    address: string,
+    paymentId: string,
+    nettype: Nettype
+  ): Promise<string>;
 
-  are_equal_mnemonics(a: string, b: string): Promise<any>;
-
-  mnemonic_from_seed(seed_string: string, wordset_name: string): Promise<any>;
-
-  seed_and_keys_from_mnemonic(
-    mnemonic_string: string,
-    nettype: number
-  ): Promise<any>;
-
-  validate_components_for_login(
-    address_string: string,
-    sec_viewKey_string: string,
-    sec_spendKey_string: string,
-    seed_string: string,
-    nettype: number
-  ): Promise<any>;
-
-  address_and_keys_from_seed(
-    seed_string: string,
-    nettype: number
-  ): Promise<any>;
-
-  generate_key_image(
-    tx_pub: string,
-    view_sec: string,
-    spend_pub: string,
-    spend_sec: string,
-    output_index: string | number
-  ): Promise<any>;
-
-  generate_key_derivation(pub: string, sec: string): Promise<any>;
-
-  derive_public_key(
-    derivation: string,
-    out_index: string,
-    pub: string
-  ): Promise<any>;
-
-  derive_subaddress_public_key(
-    output_key: string,
-    derivation: string,
-    out_index: string | number
-  ): Promise<any>;
-
-  decodeRct(
-    rv: { type: number; ecdhInfo: any[]; outPk: any[] },
-    sk: string,
-    i: string | number
-  ): Promise<any>;
-
-  estimated_tx_network_fee(
-    fee_per_kb__string: string,
-    priority: string | number,
-    optl__fee_per_b_string?: string
-  ): Promise<any>;
-
-  send_step1__prepare_params_for_get_decoys(
-    is_sweeping: boolean,
-    sending_amount: JSBigInt, // this may be 0 if sweeping
-    fee_per_b: JSBigInt,
-    fee_mask: JSBigInt,
-    priority: number,
-    unspent_outputs: SpendableOut[],
-    optl__payment_id_string?: string, // this may be nil
-    optl__passedIn_attemptAt_fee?: string | JSBigInt
-  ): Promise<any>;
-
-  send_step2__try_create_transaction(
-    from_address_string: string,
-    sec_keys: { view: string; spend: string },
-    to_address_string: string,
-    using_outs: SpendableOut[],
-    mix_outs: SpendableOut[] | undefined,
-    fake_outputs_count: number,
-    final_total_wo_fee: JSBigInt,
-    change_amount: JSBigInt,
-    fee_amount: JSBigInt,
-    payment_id: string | undefined,
-    priority: number,
-    fee_per_b: JSBigInt, // not kib - if fee_per_kb, /= 1024
-    fee_mask: JSBigInt,
-    unlock_time: number,
-    nettype: number
-  ): Promise<any>;
+  seedAndKeysFromMnemonic(
+    mnemonic: string,
+    nettype: Nettype
+  ): Promise<SeedAndKeys>;
 }
 
-export declare var monero_utils: MyMoneroCoreBridge;
+declare var bridge: CppBridge;
+export default bridge;

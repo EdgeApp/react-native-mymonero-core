@@ -1,5 +1,6 @@
 package app.edge.reactnative.mymonerocore;
 
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyMoneroModule extends ReactContextBaseJavaModule {
-  private native String callMyMoneroJNI(String method, String arguments);
+  private native String callMyMoneroJNI(String method, String[] arguments);
 
   private native String[] getMethodNames();
 
@@ -33,9 +34,15 @@ public class MyMoneroModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void callMyMonero(String method, String arguments, Promise promise) {
+  public void callMyMonero(String method, ReadableArray arguments, Promise promise) {
+    // Re-package the arguments:
+    String[] strings = new String[arguments.size()];
+    for (int i = 0; i < arguments.size(); ++i) {
+      strings[i] = arguments.getString(i);
+    }
+
     try {
-      promise.resolve(callMyMoneroJNI(method, arguments));
+      promise.resolve(callMyMoneroJNI(method, strings));
     } catch (Exception e) {
       promise.reject("MyMoneroError", e);
     }
