@@ -1,5 +1,9 @@
 # react-native-mymonero-core
 
+## v0.2.2 (2022-08-13)
+
+- changed: Update for the v15 hardfork.
+
 ## v0.2.1 (2022-08-11)
 
 - fixed: Correctly detect boost headers on M1 build machines.
