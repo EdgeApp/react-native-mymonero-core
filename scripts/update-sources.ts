@@ -37,18 +37,18 @@ async function downloadSources(): Promise<void> {
   getRepo(
     'monero-core-custom',
     'https://github.com/mymonero/monero-core-custom.git',
-    '936afd97467375511032d6a4eef6e76c982148dd'
+    'd0d4ec2c99a1db96518a98ff47773d76cf729d84'
   )
   getRepo(
     // Use the webassembly-cleanup branch:
     'mymonero-core-cpp',
     'https://github.com/mymonero/mymonero-core-cpp.git',
-    '005fcf096ef429ddc157f489d69b1d3ca7d16244'
+    'dadb28f215ec7d6e52cc29ffa881a30542c64bc5'
   )
   getRepo(
     'mymonero-utils',
     'https://github.com/mymonero/mymonero-utils.git',
-    'a6df682f9b730804963538e8d826d91ae59dba40'
+    'f068bc339ccb5e74a01fba1c617b1b78a498241a'
   )
   await disklet.setText(
     // Upstream mymonero-utils wrongly includes this file, so make a dummy:
@@ -64,7 +64,8 @@ async function downloadSources(): Promise<void> {
 // Preprocessor definitions:
 const defines: string[] = [
   'BOOST_ERROR_CODE_HEADER_ONLY',
-  'BOOST_SYSTEM_NO_DEPRECATED'
+  'BOOST_SYSTEM_NO_DEPRECATED',
+  'MYMONERO_CORE_CUSTOM'
 ]
 
 // Compiler options derived loosely from mymonero-core-cpp/CMakeLists.txt:
@@ -113,6 +114,7 @@ const sources: string[] = [
   'monero-core-custom/crypto/tree-hash.c',
   'monero-core-custom/cryptonote_basic/account.cpp',
   'monero-core-custom/cryptonote_basic/cryptonote_basic_impl.cpp',
+  'monero-core-custom/cryptonote_basic/cryptonote_format_utils_basic.cpp',
   'monero-core-custom/cryptonote_basic/cryptonote_format_utils.cpp',
   'monero-core-custom/cryptonote_core/cryptonote_tx_utils.cpp',
   'monero-core-custom/device/device_default.cpp',
@@ -123,6 +125,7 @@ const sources: string[] = [
   'monero-core-custom/epee/src/string_tools.cpp',
   'monero-core-custom/epee/src/wipeable_string.cpp',
   'monero-core-custom/mnemonics/electrum-words.cpp',
+  'monero-core-custom/ringct/bulletproofs_plus.cc',
   'monero-core-custom/ringct/bulletproofs.cc',
   'monero-core-custom/ringct/multiexp.cc',
   'monero-core-custom/ringct/rctCryptoOps.c',
