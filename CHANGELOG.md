@@ -1,5 +1,9 @@
 # react-native-mymonero-core
 
+## v0.2.3 (2022-08-26)
+
+- changed: Upgrade native code to @mymonero/mymonero-monero-client v2.1.19.
+
 ## v0.2.2 (2022-08-13)
 
 - changed: Update for the v15 hardfork.
