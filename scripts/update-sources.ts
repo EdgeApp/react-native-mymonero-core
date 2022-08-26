@@ -43,12 +43,12 @@ async function downloadSources(): Promise<void> {
     // Use the webassembly-cleanup branch:
     'mymonero-core-cpp',
     'https://github.com/mymonero/mymonero-core-cpp.git',
-    'dadb28f215ec7d6e52cc29ffa881a30542c64bc5'
+    '7269f53ddec9f51f9aba9f61165cd2cf979b49c3'
   )
   getRepo(
     'mymonero-utils',
     'https://github.com/mymonero/mymonero-utils.git',
-    'f068bc339ccb5e74a01fba1c617b1b78a498241a'
+    'c5eb94a1539ce048b27ee7bc8377bc01bd4a097c' // v2.1.19
   )
   await disklet.setText(
     // Upstream mymonero-utils wrongly includes this file, so make a dummy:
