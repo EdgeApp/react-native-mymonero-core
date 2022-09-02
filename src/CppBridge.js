@@ -28,6 +28,7 @@ class CppBridge {
    * @param {string} options.publicSpendKey
    * @param {string} options.privateSpendKey
    * @param {boolean} options.shouldSweep
+   * @param {?string} options.paymentId - The payment id for the transaction. can be null.
    * @param {string} options.nettype - The network name eg MAINNET.
    * @param {object} options.unspentOuts - List of unspent outs as well as per byte fee.
    * @param {randomOutsCallback} options.randomOutsCb - Used to fetch the random outs from the light wallet service.
@@ -77,6 +78,7 @@ class CppBridge {
       pub_spendKey_string: options.publicSpendKey,
       priority: '' + options.priority,
       nettype_string: options.nettype,
+      manuallyEnteredPaymentID: options.paymentId,
       unspentOuts: options.unspentOuts
     }
 

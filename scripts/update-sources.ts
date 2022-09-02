@@ -48,7 +48,7 @@ async function downloadSources(): Promise<void> {
   getRepo(
     'mymonero-utils',
     'https://github.com/mymonero/mymonero-utils.git',
-    'c5eb94a1539ce048b27ee7bc8377bc01bd4a097c' // v2.1.19
+    '3a44768c8e5cde3c4f56eb39ad29ba67386b92f8' // v2.1.20
   )
   await disklet.setText(
     // Upstream mymonero-utils wrongly includes this file, so make a dummy:

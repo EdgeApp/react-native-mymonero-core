@@ -77,6 +77,7 @@ export type CreateTransactionOptions = {
     to_address: string;
     send_amount: string;
   }>;
+  paymentId?: string,
   shouldSweep: boolean;
 
   // Chain state:
