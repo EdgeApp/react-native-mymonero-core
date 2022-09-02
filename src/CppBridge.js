@@ -335,12 +335,9 @@ class CppBridge {
     if (!paymentId || paymentId.length !== 16) {
       throw Error('expected valid paymentId')
     }
-    const retString = await this.Module.newIntegratedAddress(address, paymentId, nettype)
-    const ret = JSON.parse(retString)
-    if (ret.err_msg) {
-      throw Error(ret.err_msg)
-    }
-    return ret.retVal
+    const ret = await this.Module.newIntegratedAddress(address, paymentId, nettype)
+
+    return ret
   }
 
   /**
