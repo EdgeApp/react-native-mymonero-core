@@ -1,6 +1,7 @@
 // This has been taken from @mymonero/mymonero-monero-client v2.0.0
 // All methods have been marked `async`,
 // we have removed a try-catch block,
+// the send_amount check for sweeping transactions has been changed from number 0 to string '0'
 // and the class has been renamed from `WABridge` to `CppBridge`.
 
 'use strict'
@@ -62,7 +63,7 @@ class CppBridge {
       if (options.destinations.length !== 1) {
         throw Error('Invalid number of destinations must be 1')
       }
-      if (options.destinations[0].send_amount !== 0) {
+      if (options.destinations[0].send_amount !== '0') {
         throw Error('Invalid amount when sweeping amount must be 0')
       }
     }
