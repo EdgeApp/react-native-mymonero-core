@@ -1,5 +1,9 @@
 # react-native-mymonero-core
 
+## v0.2.7 (2023-01-10)
+
+- fixed: Re-publish to include missing files.
+
 ## v0.2.6 (2023-01-10)
 
 - fixed: For sweep transactions, validate `send_amount` as a string rather than a number
