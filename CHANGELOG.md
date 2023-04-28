@@ -1,5 +1,10 @@
 # react-native-mymonero-core
 
+## v0.3.0 (2023-04-28)
+
+- changed: Do not allow multiple parallel calls to createTransaction. Instead, wait for the previous call to complete before starting the next one.
+- changed: Simplify and document the relationship between the React Native bridge and the CppBridge object.
+
 ## v0.2.7 (2023-01-10)
 
 - fixed: Re-publish to include missing files.
