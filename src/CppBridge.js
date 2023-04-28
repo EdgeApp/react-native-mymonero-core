@@ -1,8 +1,9 @@
 // This has been taken from @mymonero/mymonero-monero-client v2.0.0
-// All methods have been marked `async`,
-// we have removed a try-catch block,
-// the send_amount check for sweeping transactions has been changed from number 0 to string '0'
-// and the class has been renamed from `WABridge` to `CppBridge`.
+// Changes include:
+// - Rename the class from `WABridge` to `CppBridge`
+// - Make all methods `async`
+// - Remove a try-catch block
+// - Change the shouldSweep `send_amount` check from number 0 to string '0'
 
 'use strict'
 
