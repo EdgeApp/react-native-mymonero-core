@@ -5,14 +5,28 @@
 // - Remove a try-catch block
 // - Change the shouldSweep `send_amount` check from number 0 to string '0'
 // - Add a mutex around `createTransaction`
+// - Assemble the `this.Module` property in the constructor
 
 'use strict'
 
 let lastSpend = Promise.resolve()
 
 class CppBridge {
-  constructor (module) {
-    this.Module = module
+  constructor (MyMoneroCore) {
+    // Put the methods back together:
+    this.Module = {}
+    for (const name of MyMoneroCore.methodNames) {
+      this.Module[name] = function (...args) {
+        return MyMoneroCore.callMyMonero(name, args).then(out => {
+          // We have to cast some return values:
+          return name === 'compareMnemonics' ||
+            name === 'isIntegratedAddress' ||
+            name === 'isSubaddress'
+            ? Boolean(out)
+            : out
+        })
+      }
+    }
 
     // Only allow one createTransaction call at a time:
     const oldCreateTransaction = this.createTransaction.bind(this)

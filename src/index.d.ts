@@ -2,7 +2,9 @@
  * The shape of the native C++ module exposed to React Native.
  *
  * You do not normally need this, but it is accessible as
- * `require('react-native').NativeModules.MyMoneroCore`
+ * `require('react-native').NativeModules.MyMoneroCore`.
+ *
+ * Pass this object to the `CppBridge` constructor to re-assemble the API.
  */
 export interface NativeMyMoneroCore {
   readonly callMyMonero: (
