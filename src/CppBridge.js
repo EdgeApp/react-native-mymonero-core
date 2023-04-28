@@ -4,12 +4,26 @@
 // - Make all methods `async`
 // - Remove a try-catch block
 // - Change the shouldSweep `send_amount` check from number 0 to string '0'
+// - Add a mutex around `createTransaction`
 
 'use strict'
+
+let lastSpend = Promise.resolve()
 
 class CppBridge {
   constructor (module) {
     this.Module = module
+
+    // Only allow one createTransaction call at a time:
+    const oldCreateTransaction = this.createTransaction.bind(this)
+    this.createTransaction = function (opts) {
+      const out = lastSpend.then(
+        () => oldCreateTransaction(opts),
+        () => oldCreateTransaction(opts)
+      )
+      lastSpend = out
+      return out
+    }
   }
 
   /**
