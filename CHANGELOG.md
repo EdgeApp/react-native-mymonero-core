@@ -1,5 +1,9 @@
 # react-native-mymonero-core
 
+## v0.3.1 (2023-07-04)
+
+- added: Add a `project` command to the Android CMake project file.
+
 ## v0.3.0 (2023-04-28)
 
 - changed: Do not allow multiple parallel calls to createTransaction. Instead, wait for the previous call to complete before starting the next one.

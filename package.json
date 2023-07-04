@@ -1,6 +1,6 @@
 {
   "name": "react-native-mymonero-core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "React Native bindings for @mymonero/mymonero-monero-client",
   "homepage": "https://github.com/EdgeApp/react-native-mymonero-core",
   "repository": {
@@ -16,14 +16,14 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "files": [
-    "android/build.gradle",
-    "android/src/",
-    "CHANGELOG.md",
-    "ios/",
-    "package.json",
-    "react-native-mymonero-core.podspec",
-    "README.md",
-    "src/"
+    "/android/build.gradle",
+    "/android/src/",
+    "/CHANGELOG.md",
+    "/ios/",
+    "/package.json",
+    "/react-native-mymonero-core.podspec",
+    "/README.md",
+    "/src/"
   ],
   "scripts": {
     "format-java": "./android/format-java.sh",
