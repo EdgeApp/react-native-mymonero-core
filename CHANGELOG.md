@@ -1,5 +1,10 @@
 # react-native-mymonero-core
 
+## v0.3.2 (2025-06-06)
+
+- fixed: Make the Android C++ language version explicit.
+- fixed: Isolate the iOS build, so the linking step won't be impacted by other libraries in the app.
+
 ## v0.3.1 (2023-07-04)
 
 - added: Add a `project` command to the Android CMake project file.
