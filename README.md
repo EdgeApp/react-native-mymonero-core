@@ -66,3 +66,9 @@ This script does the following tasks:
 - Generate Flow types from the TypeScript definitions.
 
 The `update-sources` script is also the place to make edits when upgrading any of the third-party dependencies. The react-native-mymonero-core repo doesn't include these third-party C++ sources, since they are enormous.
+
+For this to work, you need:
+
+- A recent Android SDK, installed at `$ANDROID_HOME`
+- Xcode command-line tools
+- `llvm-objcopy`, provided by `brew install llvm`
