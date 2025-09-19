@@ -1,11 +1,11 @@
 buildscript {
   repositories {
     google()
-    jcenter()
+    mavenCentral()
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.2.1'
+    classpath 'com.android.tools.build:gradle:7.3.1'
   }
 }
 
@@ -15,23 +15,19 @@ def safeExtGet(prop, fallback) {
   rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
 }
 
-def DEFAULT_COMPILE_SDK_VERSION = 28
-def DEFAULT_BUILD_TOOLS_VERSION = "28.0.2"
-def DEFAULT_MIN_SDK_VERSION = 16
-def DEFAULT_TARGET_SDK_VERSION = 27
-
 android {
-  compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
-  buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
+  namespace = "app.edge.reactnative.mymonerocore"
+  compileSdk = safeExtGet('compileSdkVersion', 31)
+  ndkVersion = safeExtGet('ndkVersion', '28.0.2')
 
   defaultConfig {
-    minSdkVersion safeExtGet('minSdkVersion', DEFAULT_MIN_SDK_VERSION)
-    targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
-    versionCode 1
-    versionName "1.0"
+    minSdk = safeExtGet('minSdkVersion', 19)
+    targetSdk = safeExtGet('targetSdkVersion', 34)
+    versionCode = 1
+    versionName = '1.0'
   }
   lintOptions {
-    abortOnError false
+    abortOnError = false
   }
   externalNativeBuild {
     cmake {

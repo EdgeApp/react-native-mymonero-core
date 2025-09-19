@@ -226,7 +226,9 @@ async function generateAndroidBuild() {
     'add_compile_options(-fvisibility=hidden -w)',
     ...defines.map(name => `add_definitions("-D${name}")`),
     ...includePaths.map(path => `include_directories("${path}")`),
-    `add_library(mymonero-jni SHARED ${sourceList})`
+    `add_library(mymonero-jni SHARED ${sourceList})`,
+    // 16KiB page alignment:
+    'target_link_options(mymonero-jni PRIVATE "-Wl,-z,max-page-size=16384")'
   ]
   await disklet.setText(src + 'CMakeLists.txt', cmakeLines.join('\n'))
 }
