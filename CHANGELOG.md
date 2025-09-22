@@ -1,5 +1,11 @@
 # react-native-mymonero-core
 
+## Unreleased
+
+## v0.3.3 (2025-09-22)
+
+- fixed: Align support 16KiB alignment on Android.
+
 ## v0.3.2 (2025-06-06)
 
 - fixed: Make the Android C++ language version explicit.
