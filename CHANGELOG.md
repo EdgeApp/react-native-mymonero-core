@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- fixed: Show proper messages for C++ errors.
+
 ## v0.3.3 (2025-09-22)
 
 - fixed: Align support 16KiB alignment on Android.
