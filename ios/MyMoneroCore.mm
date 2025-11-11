@@ -41,7 +41,7 @@ RCT_REMAP_METHOD(
       resolve(
         [NSString stringWithCString:out.c_str() encoding:NSUTF8StringEncoding]
       );
-    } catch (std::exception e) {
+    } catch (std::exception &e) {
       reject(
         @"Error",
         [NSString stringWithCString:e.what() encoding:NSUTF8StringEncoding],
