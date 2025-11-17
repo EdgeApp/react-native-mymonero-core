@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.3.4 (2025-11-17)
+
 - fixed: Show proper messages for C++ errors.
 
 ## v0.3.3 (2025-09-22)
