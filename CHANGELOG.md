@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- changed: Convert the build tooling from Yarn to npm.
+- security: Upgrade dependencies per Socket security recommendations.
+
 ## 0.3.4 (2025-11-17)
 
 - fixed: Show proper messages for C++ errors.
